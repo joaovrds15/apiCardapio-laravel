@@ -23,15 +23,15 @@ class JWTVerification
             $apy = JWTAuth::getPayload($token)->toArray();
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
 
-            return response()->json(['token_expired'], 500);
+            return response()->json(['token_expired'], 401);
     
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
     
-            return response()->json(['token_invalid'], 500);
+            return response()->json(['token_invalid'], 401);
     
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
     
-            return response()->json(['token_absent' => $e->getMessage()], 500);
+            return response()->json(['token_absent' => $e->getMessage()], 401);
     
         }
         

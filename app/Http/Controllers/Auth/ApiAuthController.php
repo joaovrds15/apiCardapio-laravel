@@ -26,7 +26,6 @@ class ApiAuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login','register']]);
     }
 
-
     /**
      * Register a User.
      *
