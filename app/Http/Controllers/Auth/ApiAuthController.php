@@ -9,10 +9,10 @@ use App\Models\User;
 use Exception;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
-
-
 use Illuminate\Support\Str;
+use Tymon\JWTAuth\JWT;
 
 class ApiAuthController extends Controller
 {
@@ -23,17 +23,50 @@ class ApiAuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        $this->middleware('auth:api', ['except' => ['login','register','logout']]);
     }
 
     /**
-     * Register a User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+    * @OA\Post(
+    *   path="/api/auth/register",
+    *   tags={"Auth"},
+    *   description="Endpoint for registering an user",
+    *    @OA\RequestBody(
+    *       required = true,
+    *        @OA\JsonContent(
+    *            type="object",
+    *            @OA\Property(
+    *               property="username",
+    *               type = "string",
+    *               maxLength=255,
+    *               minLength=6,
+    *               example="joaovictor", 
+    *           ),
+    *            @OA\Property(
+    *               property="password",
+    *               type = "string",
+    *               maxLength=255,
+    *               minLength = 8,
+    *               example="teste@123", 
+    *           ),
+    *           @OA\Property(
+    *               property="re_password",
+    *               type = "string",
+    *               maxLength=255,
+    *               minLength = 8,
+    *               example="teste@123", 
+    *           ),
+    *        ),
+    *    ),
+    *   @OA\Response(response="400", description="Invalid user data"),
+    *   @OA\Response(response="409", description="Username already in use"),
+    *   @OA\Response(response="201", description="Registered"),
+    *  ),
+    *   @return \Illuminate\Http\JsonResponse
+    */
+
     public function register(Request $request)
     {
-        //Validation
         $validator = Validator::make($request->all(),[
             'username'      => 'required|string|max:255|min:6',
             'password'      => 'required|string|max:255|min:8',
@@ -41,7 +74,7 @@ class ApiAuthController extends Controller
         ]);
         if ($validator->fails()) {
 
-            return response(['errors'   =>  $validator->errors()->all()], 400);
+            return response()->json(['message' => 'Invalid user data'], 400);
         }
 
         $request['password'] = Hash::make($request['password']);
@@ -49,7 +82,7 @@ class ApiAuthController extends Controller
         $request['remember_token'] = Str::random(10);
         if(User::where('username', $request['username'])->exists()){
             return response()->json([
-                'message' => 'User already in use',
+                'message' => 'Username already in use',
             ], 409);
         }
         User::create($request->all());
@@ -61,17 +94,44 @@ class ApiAuthController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+    * @OA\Post(
+    *   path="/api/auth/login",
+    *   tags={"Auth"},
+    *   description="Endpoint for logging in an user",
+    *    @OA\RequestBody(
+    *       required = true,
+    *        @OA\JsonContent(
+    *            type="object",
+    *            @OA\Property(
+    *               property="username",
+    *               type = "string",
+    *               maxLength=255,
+    *               minLength=6,
+    *               example="joaovictor", 
+    *           ),
+    *            @OA\Property(
+    *               property="password",
+    *               type = "string",
+    *               maxLength=255,
+    *               minLength = 8,
+    *               example="teste@123", 
+    *           ),
+    *        ),
+    *    ),
+    *   @OA\Response(response="400", description="Invalid user data"),
+    *   @OA\Response(response="401", description="Wrong credentials"),
+    *   @OA\Response(response="200", description="Login ok"),
+    *  ),
+    *   @return \Illuminate\Http\JsonResponse
+    */
+
     public function login(Request $request){
     	$validator = Validator::make($request->all(), [
             'username'      => 'required|string|max:255|min:6',
             'password'      => 'required|string|max:255|min:8',
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json(['message' => 'Invalid user data'], 400);
         }
         if (! $token = auth('api')->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -80,11 +140,17 @@ class ApiAuthController extends Controller
         return $this->createNewToken($token);
     }
 
-     /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+    /**
+    * @OA\Post(
+    *   path="/api/auth/logout",
+    *   tags={"Auth"},
+    *   description="Endpoint for logging out an user",
+    *   security={{"bearerAuth":{} }},
+    *   @OA\Response(response="401", description="Invalid token"),
+    *   @OA\Response(response="200", description="User logout"),
+    *  ),
+    *   @return \Illuminate\Http\JsonResponse
+    */
     public function logout() {
         auth()->logout();
         return response()->json(['message' => 'User successfully signed out']);

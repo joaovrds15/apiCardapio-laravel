@@ -63,7 +63,7 @@ class ApiItemsController extends Controller
             'image'       =>  'url|max:255'
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return response()->json(['message' => 'Invalid item data'], 400);
         }
         $token = JWTAuth::getToken();
         $payload = JWTAuth::getPayload($token)->toArray();
@@ -101,7 +101,7 @@ class ApiItemsController extends Controller
 
     /**
     * @OA\Get(
-    *   path="/api/items/list/",
+    *   path="/api/items/list/{id}",
     *   tags={"Items"},
     *   security={{"bearerAuth":{} }},
     *   description="Endpoint for listing one item from user's menu",
@@ -119,7 +119,7 @@ class ApiItemsController extends Controller
     *   @OA\Response(response="400", description="Invalid item id"),
     *   @OA\Response(response="200", description="Item found"),
     *  ),
-    *    @param int $id
+    *   @param string $id
     *   @return JsonResponse
     *   
     */
@@ -139,7 +139,7 @@ class ApiItemsController extends Controller
 
     /**
     * @OA\Get(
-    *   path="/api/items/search/",
+    *   path="/api/items/search/{item}",
     *   tags={"Items"},
     *   security={{"bearerAuth":{} }},
     *   description="Endpoint for searching an item from user's menu",
@@ -150,7 +150,7 @@ class ApiItemsController extends Controller
     *          @OA\Schema(
     *              type="string"
     *          ),
-    *          in="query",
+    *          in="path",
     *          required=true,
     *     ),
     *   @OA\Response(response="401", description="Invalid Token"),
@@ -169,7 +169,7 @@ class ApiItemsController extends Controller
 
     /**
     * @OA\Put(
-    *   path="/api/items/edit/",
+    *   path="/api/items/edit/{id}",
     *   tags={"Items"},
     *   security={{"bearerAuth":{} }},
     *   description="Endpoint for editing an item from user's menu",
@@ -183,6 +183,34 @@ class ApiItemsController extends Controller
     *          in="path",
     *          required=true,
     *     ),
+    *    @OA\RequestBody(
+    *       required = true,
+    *        @OA\JsonContent(
+    *            type="object",
+    *            @OA\Property(
+    *               property="name",
+    *               type = "string",
+    *               maxLength=255,
+    *               example="Pastel de frango", 
+    *           ),
+    *            @OA\Property(
+    *               property="price",
+    *               type = "numeric",
+    *               example="10.50", 
+    *           ),
+    *            @OA\Property(
+    *               property="description",
+    *               type = "string",
+    *               maxLength =255,
+    *               example="Pastel de frango com catupiry", 
+    *           ),
+    *           @OA\Property(
+    *               property="image",
+    *               type = "url",
+    *               example="https://imagens/pastel_de_frango.jpeg", 
+    *           ),
+    *        ),
+    *    ),
     *   @OA\Response(response="401", description="Invalid Token"),
     *   @OA\Response(response="200", description="Items found"),
     *    @OA\Response(response="400", description="Invalid id"),
@@ -194,12 +222,20 @@ class ApiItemsController extends Controller
 
     public function edit(Request $request, $itemId)
     {
+        $validator = Validator::make($request->all(), [
+            'name'      => 'required|string|max:255',
+            'price'      => 'required|numeric|min:0.01',
+            'description' => 'required|string|max:255',
+            'image'       =>  'url|max:255'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Invalid item data'], 400);
+        }
         $idUser = JWTAuth::getPayload(JWTAuth::getToken())->toArray()['sub'];
         $item = Item::find($itemId);
         if (!$item){
-            return response()->json([
-                'message' => 'Invalid itemId'
-            ],401);
+
+            return response()->json(['message' => 'Invalid itemId'],401);
         }
        $item = Item::where('idUser', $idUser)
                     ->where('id', $itemId)
@@ -213,7 +249,7 @@ class ApiItemsController extends Controller
 
     /**
     * @OA\Delete(
-    *   path="/api/items/delete/",
+    *   path="/api/items/delete/{id}",
     *   tags={"Items"},
     *   security={{"bearerAuth":{} }},
     *   description="Endpoint for deleting an item from user's menu",
@@ -224,7 +260,7 @@ class ApiItemsController extends Controller
     *          @OA\Schema(
     *              type="integer"
     *          ),
-    *          in="query",
+    *          in="path",
     *          required=true,
     *     ),
     *   @OA\Response(response="401", description="Invalid Token"),
@@ -245,7 +281,7 @@ class ApiItemsController extends Controller
         Item::where('id','=',$id)->where('idUser','=',$idUser)->delete();
 
         return response()->json([
-            "message" => "updated"
+            "message" => "deleted"
         ]); 
     }
 }

@@ -27,7 +27,12 @@ Route::group([
 ], function($router){
     Route::post('/login', [ApiAuthController::class, 'login'])->name('login.api');
     Route::post('/register', [ApiAuthController::class, 'register'])->name('register.api');
-    Route::post('/logout', [ApiAuthController::class, 'logout'])->name('logout.api');
+    Route::group([
+        'middleware' => 'JWTVerification',
+    ], function($router){
+        Route::post('/logout', [ApiAuthController::class, 'logout'])->name('logout.api');
+    });
+    
 
 });
 
@@ -42,4 +47,11 @@ Route::group([
     Route::get('edit/{id}',[ApiItemsController::class,'listId'])->name('editGet.api');
     Route::put('edit/{id}',[ApiItemsController::class,'edit'])->name('editGet.api');
     Route::delete('delete/{id}',[ApiItemsController::class,'delete'])->name('delete.api');
+    
+});
+
+Route::group([
+    'middleware' => 'JWTVerification',
+], function($router){
+    
 });

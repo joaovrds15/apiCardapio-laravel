@@ -14,13 +14,10 @@ use Illuminate\Routing\Controller as BaseController;
  *      scheme="bearer",
  *      securityScheme="bearerAuth",
  * ),
- * 
- *  
- * 
- * 
  */
 
  
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
