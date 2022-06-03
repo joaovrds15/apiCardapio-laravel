@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 
 class ItemTest extends TestCase
 {
-    use WithoutMiddleware, RefreshDatabase;
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -23,7 +23,7 @@ class ItemTest extends TestCase
     {
         $user = User::factory()->create();
         
-        $response = $this->actingAs($user)
+        $response = $this->actingAs($user, 'api')
             ->getJson('api/items/list');
 
         $response->assertStatus(200);

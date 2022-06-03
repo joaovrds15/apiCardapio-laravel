@@ -3,19 +3,20 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Faker\Factory;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Http\Response;
 use Tymon\JWTAuth\Support\RefreshFlow;
 
 class AuthTest extends TestCase
 {
     use RefreshDatabase;
+
     public function test_user_with_valid_credentials_can_login()
     {
-       $user = User::factory()->create();
+        $user = User::factory()->create();
         $userData = [
             "username" => $user['username'],
             //Passar secret teste para env
@@ -23,14 +24,14 @@ class AuthTest extends TestCase
         ];
 
         $response = $this
-            ->postJson('api/auth/login',$userData);
-        
-        $response->assertStatus(200);
+            ->postJson('api/auth/login', $userData);
+
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     public function test_user_with_invalid_credentials_cant_login()
     {
-       $user = User::factory()->create();
+        $user = User::factory()->create();
         $userData = [
             "username" => $user['username'],
             //Passar secret teste para env
@@ -38,7 +39,7 @@ class AuthTest extends TestCase
         ];
 
         $response = $this
-            ->postJson('api/auth/login',$userData);
+            ->postJson('api/auth/login', $userData);
 
         $response->assertStatus(401);
     }
@@ -92,7 +93,7 @@ class AuthTest extends TestCase
         $response->assertStatus(409);
     }
 
-    /*public function test_logged_in_user_can_logout()
+    public function test_logged_in_user_can_logout()
     {
         $user = User::factory()->create();
         $userData = [
@@ -100,13 +101,14 @@ class AuthTest extends TestCase
             //Passar secret teste para env
             "password" => 'secret@123',
         ];
-        $token = $this->postJson('api/auth/login',$userData);
-        $token = $token->content();
-        
-
+        $response = $this->postJson('api/auth/login',$userData);
+        $token = $response->json('access_token');
         $response = $this
-            ->postJson('api/auth/register',$userData);
+            ->withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+            ])
+            ->postJson('api/auth/logout',$userData);
 
-        $response->assertStatus(409);
-    }*/
+        $response->assertStatus(Response::HTTP_OK);
+    }
 }

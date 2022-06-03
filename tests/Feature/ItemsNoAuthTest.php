@@ -11,10 +11,9 @@ class ItemsNoAuthTest extends TestCase
 {
     use RefreshDatabase;
 
-
     public function test_user_not_auth_cant_list_items()
     {   
-        $response = $this->get('api/items/list');
+        $response = $this->getJson('api/items/list');
         $response->assertStatus(401);
     }
 
