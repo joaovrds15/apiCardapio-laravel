@@ -92,21 +92,22 @@ class AuthTest extends TestCase
         $response->assertStatus(409);
     }
 
-    /*public function test_logged_in_user_can_logout()
+    public function test_logged_in_user_can_logout()
     {
         $user = User::factory()->create();
         $userData = [
-            "username" => $user['username'],
+            'username' => $user['username'],
             //Passar secret teste para env
-            "password" => 'secret@123',
+            'password' => 'secret@123',
         ];
-        $token = $this->postJson('api/auth/login',$userData);
-        $token = $token->content();
-        
-
+        $response = $this->postJson('api/auth/login', $userData);
+        $token = $response->json('access_token');
         $response = $this
-            ->postJson('api/auth/register',$userData);
+            ->withHeaders([
+                'Authorization' => 'Bearer '.$token,
+            ])
+            ->postJson('api/auth/logout', $userData);
 
-        $response->assertStatus(409);
-    }*/
+        $response->assertStatus(Response::HTTP_OK);
+    }
 }
