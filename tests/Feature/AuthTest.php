@@ -12,7 +12,7 @@ use Tymon\JWTAuth\Support\RefreshFlow;
 
 class AuthTest extends TestCase
 {
-    
+    use RefreshDatabase;
     public function test_user_with_valid_credentials_can_login()
     {
        $user = User::factory()->create();
@@ -24,7 +24,7 @@ class AuthTest extends TestCase
 
         $response = $this
             ->postJson('api/auth/login',$userData);
-
+        
         $response->assertStatus(200);
     }
 
