@@ -131,7 +131,7 @@ class ApiAuthController extends Controller
             'password'      => 'required|string|max:255|min:8',
         ]);
         if ($validator->fails()) {
-            return response()->json(['message' => 'Invalid user data'], 400);
+            return response()->json(['message' => 'Invalid user data'], 430);
         }
 
         if (! $token = auth('api')->attempt($validator->validated())) {
