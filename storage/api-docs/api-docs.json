@@ -1,0 +1,382 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Cardapio",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/items/create": {
+            "post": {
+                "tags": [
+                    "Items"
+                ],
+                "description": "Endpoint for adding a new item",
+                "operationId": "ca8bd47ffcd9df3ab0a07598021a0fa8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Pastel de frango"
+                                    },
+                                    "price": {
+                                        "type": "numeric",
+                                        "example": "10.50"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Pastel de frango com catupiry"
+                                    },
+                                    "image": {
+                                        "type": "url",
+                                        "example": "https://imagens/pastel_de_frango.jpeg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "New item created"
+                    },
+                    "400": {
+                        "description": "Invalid data"
+                    },
+                    "401": {
+                        "description": "Invalid Token"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/items/list": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "description": "Endpoint for listing all user's menu items",
+                "operationId": "ccdc46009b6f42e8922513bbe658aa70",
+                "responses": {
+                    "401": {
+                        "description": "Invalid Token"
+                    },
+                    "200": {
+                        "description": "Items in user's menu"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/items/list/{id}": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "description": "Endpoint for listing one item from user's menu",
+                "operationId": "f0408882c547c6fb31d1f899bb238c0c",
+                "parameters": [
+                    {
+                        "parameter": "Item id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "item id to search for the item in the database",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Invalid Token"
+                    },
+                    "400": {
+                        "description": "Invalid item id"
+                    },
+                    "200": {
+                        "description": "Item found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/items/search/{item}": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "description": "Endpoint for searching an item from user's menu",
+                "operationId": "622d537ec521e4de4563f0735b4b1ffa",
+                "parameters": [
+                    {
+                        "parameter": "item name",
+                        "name": "item",
+                        "in": "path",
+                        "description": "item name to search for the item in the database",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Invalid Token"
+                    },
+                    "200": {
+                        "description": "Items found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/items/edit/{id}": {
+            "put": {
+                "tags": [
+                    "Items"
+                ],
+                "description": "Endpoint for editing an item from user's menu",
+                "operationId": "055ead7398bb1bef4d6db1c5f3790475",
+                "parameters": [
+                    {
+                        "parameter": "item",
+                        "name": "id",
+                        "in": "path",
+                        "description": "item name to search for the item in the database",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Pastel de frango"
+                                    },
+                                    "price": {
+                                        "type": "numeric",
+                                        "example": "10.50"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Pastel de frango com catupiry"
+                                    },
+                                    "image": {
+                                        "type": "url",
+                                        "example": "https://imagens/pastel_de_frango.jpeg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Invalid Token"
+                    },
+                    "200": {
+                        "description": "Items found"
+                    },
+                    "400": {
+                        "description": "Invalid id"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/items/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Items"
+                ],
+                "description": "Endpoint for deleting an item from user's menu",
+                "operationId": "d7c185efe646f44883f657a3abe49368",
+                "parameters": [
+                    {
+                        "parameter": "item id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "item id to search for the item in the database",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "Invalid Token"
+                    },
+                    "200": {
+                        "description": "Items found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "description": "Endpoint for registering an user",
+                "operationId": "31ef672469def51a0b8de4ee83528a3a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "minLength": 6,
+                                        "example": "joaovictor"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "minLength": 8,
+                                        "example": "teste@123"
+                                    },
+                                    "re_password": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "minLength": 8,
+                                        "example": "teste@123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid user data"
+                    },
+                    "409": {
+                        "description": "Username already in use"
+                    },
+                    "201": {
+                        "description": "Registered"
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "description": "Endpoint for logging in an user",
+                "operationId": "36b309ce9a2729d167496334d9d3027b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "minLength": 6,
+                                        "example": "joaovictor"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "minLength": 8,
+                                        "example": "teste@123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid user data"
+                    },
+                    "401": {
+                        "description": "Wrong credentials"
+                    },
+                    "200": {
+                        "description": "Login ok"
+                    }
+                }
+            }
+        },
+        "/api/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "description": "Endpoint for logging out an user",
+                "operationId": "82b4155cb8854f1e7f818c551ea3fa49",
+                "responses": {
+                    "401": {
+                        "description": "Invalid token"
+                    },
+                    "200": {
+                        "description": "User logout"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
