@@ -4,8 +4,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
-    
+
 jobs:
   laravel-tests:
 
@@ -30,7 +29,6 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-        php artisan jwt:secret
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       env:
         DB_CONNECTION: sqlite
