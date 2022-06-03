@@ -9,6 +9,7 @@
         "darkaonline/l5-swagger": "^8.3",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
+        "jzonta/faker-restaurant": "^2.0",
         "laravel/framework": "^9.0",
         "laravel/helpers": "^1.5",
         "laravel/sanctum": "^2.14",
@@ -36,6 +37,7 @@
         }
     },
     "scripts": {
+        "test":"./vendor/bin/phpunit",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

@@ -30,7 +30,7 @@ Route::group([
     Route::group([
         'middleware' => 'JWTVerification',
     ], function($router){
-        Route::post('/logout', [ApiAuthController::class, 'logout'])->name('logout.api');
+        Route::get('/logout', [ApiAuthController::class, 'logout'])->name('logout.api');
     });
     
 
@@ -50,8 +50,4 @@ Route::group([
     
 });
 
-Route::group([
-    'middleware' => 'JWTVerification',
-], function($router){
-    
-});
+

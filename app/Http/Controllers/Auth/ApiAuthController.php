@@ -133,7 +133,9 @@ class ApiAuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => 'Invalid user data'], 400);
         }
+
         if (! $token = auth('api')->attempt($validator->validated())) {
+            
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         

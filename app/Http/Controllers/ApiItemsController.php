@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
 
 class ApiItemsController extends Controller
 {   
@@ -65,10 +66,9 @@ class ApiItemsController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => 'Invalid item data'], 400);
         }
-        $token = JWTAuth::getToken();
-        $payload = JWTAuth::getPayload($token)->toArray();
+        
         $data = [
-            'idUser'    => $payload['sub'],
+            'idUser'    => Auth::user()->getKey(),
             'name'  =>  $request['name'],
             'price' =>  $request['price'],
             'description' => $request['description'],
@@ -93,7 +93,7 @@ class ApiItemsController extends Controller
 
     public function list()
     {
-        $idUser = JWTAuth::getPayload(JWTAuth::getToken())->toArray()['sub'];
+        $idUser = Auth::user()->getKey();
         
         $userItems = Item::where('idUser','=',$idUser)->get(['name','price','description','image','created_at','updated_at']);
         return response()->json($userItems);
@@ -126,7 +126,7 @@ class ApiItemsController extends Controller
 
     public function listId($id)
     {
-        $idUser = JWTAuth::getPayload(JWTAuth::getToken())->toArray()['sub'];
+        $idUser = Auth::user()->getKey();
         if (!Item::find($id)){
             return response()->json([
                 'message' => 'Invalid itemId'
@@ -162,7 +162,7 @@ class ApiItemsController extends Controller
 
     public function search($item)
     {
-        $idUser = JWTAuth::getPayload(JWTAuth::getToken())->toArray()['sub'];
+        $idUser = Auth::user()->getKey();
         $result = Item::where('name','LIKE','%'.$item.'%')->where('idUser','=',$idUser)->get(['name','price','description','image','created_at','updated_at']);
         return response()->json($result); 
     }
@@ -231,7 +231,7 @@ class ApiItemsController extends Controller
         if ($validator->fails()) {
             return response()->json(['message' => 'Invalid item data'], 400);
         }
-        $idUser = JWTAuth::getPayload(JWTAuth::getToken())->toArray()['sub'];
+        $idUser = Auth::user()->getKey();
         $item = Item::find($itemId);
         if (!$item){
 
@@ -272,7 +272,7 @@ class ApiItemsController extends Controller
 
     public function delete($id)
     {
-        $idUser = JWTAuth::getPayload(JWTAuth::getToken())->toArray()['sub'];
+        $idUser = Auth::user()->getKey();
         if (!Item::find($id)){
             return response()->json([
                 'message' => 'Invalid itemId'
