@@ -32,4 +32,5 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
+        JWT_SECRET: uZfUpRMRzY5uXVQjtbqZBC4AQUBH6hTIvZEtfpoxozzY6hYq44XDxTQZV9UtXyOq
       run: vendor/bin/phpunit
