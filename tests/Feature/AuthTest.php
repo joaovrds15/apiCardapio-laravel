@@ -8,6 +8,7 @@ use Tests\TestCase;
 use Faker\Factory;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Http\Response;
 use Tymon\JWTAuth\Support\RefreshFlow;
 
 class AuthTest extends TestCase
