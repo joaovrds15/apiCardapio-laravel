@@ -12,7 +12,7 @@ class JWTVerification
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $requestS
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
@@ -20,17 +20,12 @@ class JWTVerification
     {
         try {
             $token = JWTAuth::getToken();
-            $apy = JWTAuth::getPayload($token)->toArray();
+            JWTAuth::getPayload($token)->toArray();
         } catch (\Tymon\JWTAuth\Exceptions\TokenExpiredException $e) {
-
             return response()->json(['token_expired' => $e->getMessage()], 401);
-    
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-    
             return response()->json(['token_invalid' => $e->getMessage()], 401);
-    
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-    
             return response()->json(['token_absent' => $e->getMessage()], 401);
     
         }
