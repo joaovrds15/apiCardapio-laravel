@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Str;
 
 return [
@@ -54,7 +56,7 @@ return [
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
-            'timezone'  => '+00:00',
+            'timezone' => '+00:00',
             'prefix' => '',
             'prefix_indexes' => true,
             'strict' => true,
