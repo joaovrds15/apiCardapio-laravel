@@ -102,4 +102,4 @@ class AuthTest extends TestCase
 
         $response->assertStatus(Response::HTTP_OK);
     }
-}
+}   
