@@ -104,7 +104,7 @@ class AuthTest extends TestCase
         $token = $response->json('access_token');
         $response = $this
             ->withHeaders([
-                'Authorization' => 'Bearer ' . $token,
+                'Authorization' => 'Bearer '.$token,
             ])
             ->postJson('api/auth/logout', $userData);
 
