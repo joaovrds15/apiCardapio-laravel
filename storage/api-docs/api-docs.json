@@ -5,6 +5,45 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/file/upload": {
+            "post": {
+                "tags": [
+                    "File"
+                ],
+                "summary": "Endpoint for uploading an image",
+                "operationId": "aa617dbb059cc9e2ddc3442d434198d0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "description": "Image of item in the menu",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Uploaded"
+                    },
+                    "400": {
+                        "description": "Image invalid"
+                    },
+                    "405": {
+                        "description": "The only method available is Post"
+                    }
+                }
+            }
+        },
         "/api/items/create": {
             "post": {
                 "tags": [

@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "api-cardapio-laravel",
+  "private_key_id": "8d057ad142822308fd09506fa950a82cdb3a854c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC/mrzd5DwXuxI5\nLEZ/JTlkeEJM/TZMZ8JH13tVZu2qf92vRL+WPrP2bpQec7Q3hAwy6KdeffEyVzq6\nkqyPg15Epu9u4iBrCWF08ItSq6W3gitdz8p4d6qRPaXtPNds6CUUKRRKISgEHF71\nL513Us4aiUD6cqHAtMiufnCfcYXk/fpHvo03GT1jZ91ICSOWV2tfgjwxpA4rxPLc\nHiryxha5zjDurPsDmP6Lon15RWwSd8MroYXbP7sax6qB2HLnzRhxcdIv3gMdKYE+\nUHgrE/ysb5xfT/Pzm9zDywOGq0tJhmw3IkbOJZ8Wel95Tpo4XrmQ5Fu6JmEWlkn2\nodaUnmMvAgMBAAECggEAQYCARakjZAd3fOUmeov6uV6lZ9V+rRMhp1bCmpkT8eBB\npIvvpUjtU/dMmrZ6ayow02yW3yZWARwx/xtqc6t43CZnnzQd2gm8b/JV5t64Sept\nseX59UIPpRR6t4Y/rUMVffVnMspv+CvMyKxM/EBqJkc62AO9SXhkTMb78H4qRHR5\nMybJ+Q94f4RCcYgk//OBwHBxpmwjqzsVEFvC1szwXkCSUhx4zut/5g0BFpgalxmZ\nUZBGb9fbBDQpgKx4FOuvA5G48DtrLqXog8N/rHczGVbel8j0NLh7fzC0yqvSOSAq\nXE3CUYek8OtqOpt7kV13aQDwYttFz4vs+uWwDda4iQKBgQDuuLiJJ01TMCPmkWdT\nD69jrUu6L0T9ao3dcp0g9IbaE526mEiI1LD9y5SKoh6sIhwiEHBvUkyYxh2xbDvT\n6ZWBtpoP5N+UfT3Lbdc+O5TeW5GZ7pwgafQ8GlESa8BZe7jvXbDQZYhY+XjKs0BL\nehUvz0UKCy7hSJvZsZ49ArEGhwKBgQDNePt6uyPRBz+fSCxbmBfA/a/cDjkJqo3S\npimV9WfWl9yHmy/HDCNnjUWB3Kx8i11YHQHor4hucjjA3QGgXY4RvgRAtrpoIkDn\nFR3iqAVb+jMEHj6DSfrO8qjItvQk1wlQ2lVFw4FNfP0Q6gdzJ6YH2fHkbvdmc6ae\n7NL7THVAGQKBgQDN5vgMHKEeYoRkp/+17e56jAuoMINSDSkF24jZ1u/Fg2vleNn/\nY2yxy3l4xfKsx9L6MrG34wV8NE2CLffAhVXWBvkFQoTx38CACWLBI8T4sYR5gAyc\nDKeDe7N3rwa+Z++QToBmj1y2WZ8tPsTzFP7XOPC0hAbQe78pWoFA4GRuWwKBgQCN\nbsRzo5Mw07N4eV6HIbbgEf9WErgyLiL3J4cigMycCuYytaB6e6F3Kuf4TqSwCeIT\nv8vLld/sXlUwdDAlaaBcGBanUOAYw9M2/PMYTB18RUmOgR74khjBEIkbt8tv/FCe\nRdtCbSN46hrr5JuCKX2AlAWL/tHuxJaheFR1xBhFKQKBgFBigFC8tQTjQk/CJ7fY\nPihQr/WheSbGukmqoHHqp43paGpFIN9+h3d51cubw0y+M5gCM3P3feV1DnVLwjaQ\nMicw5LXINlq17F5xUTZAbUekfCH1tfmW8/18H3KAAyX30NYtnvU/Uv3sydnMvU7B\nGQlr3TdHV+zoEnoLq7zV6Wrj\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-pozgn@api-cardapio-laravel.iam.gserviceaccount.com",
+  "client_id": "102015366456103009577",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-pozgn%40api-cardapio-laravel.iam.gserviceaccount.com"
+}

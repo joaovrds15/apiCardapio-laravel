@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\ApiFilesController;
 use App\Http\Controllers\ApiItemsController;
 use App\Http\Controllers\Auth\ApiAuthController;
 use Illuminate\Support\Facades\Route;
@@ -44,4 +45,11 @@ Route::group([
         Route::put('edit/{id}', [ApiItemsController::class, 'edit'])->name('editGet.api');
         Route::delete('delete/{id}', [ApiItemsController::class, 'delete'])->name('delete.api');
     });
+    //Change headers to allow only uplaod from front-end server
+    Route::group([
+        'prefix' => 'file'
+    ],function($router){
+        Route::post('/upload',[ApiFilesController::class, 'uploadStorage'])->name('upload.api');
+    });
+    
 });
