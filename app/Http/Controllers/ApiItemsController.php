@@ -61,7 +61,6 @@ class ApiItemsController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0.01',
             'description' => 'required|string|max:255',
-            'image' => 'url|max:255',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => 'Invalid item data'], 400);

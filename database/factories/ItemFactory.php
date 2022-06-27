@@ -34,7 +34,7 @@ class ItemFactory extends Factory
             'name' => $this->faker->foodName(),
             'price' => $this->faker->randomNumber(2),
             'description' => 'Lorem ipsum',
-            'image' => 'https://imagemDeComida.jpeg',
+            'image' => '',
         ];
     }
 }

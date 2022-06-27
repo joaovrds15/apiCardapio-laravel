@@ -74,16 +74,19 @@ class ApiFilesController extends Controller
     }
     
     public static function deleteStorage($ImageURL){
-        $googleConfigFile = file_get_contents(config_path('googlecloud.json'));
-        $storage = new StorageClient([
-            'keyFile' => json_decode($googleConfigFile, true)
-        ]);
-        $imageName = basename($ImageURL);
-        $storageBucketName = config('googlecloud.storage_bucket');
-        $newFolderName = 'images';
-        $bucket = $storage->bucket($storageBucketName);
-        $object = $bucket->object($newFolderName.'/'.$imageName);
-        $object->delete();
+        if (!empty($ImageURL)){
+            $googleConfigFile = file_get_contents(config_path('googlecloud.json'));
+            $storage = new StorageClient([
+                'keyFile' => json_decode($googleConfigFile, true)
+            ]);
+            $imageName = basename($ImageURL);
+            $storageBucketName = config('googlecloud.storage_bucket');
+            $newFolderName = 'images';
+            $bucket = $storage->bucket($storageBucketName);
+            $object = $bucket->object($newFolderName.'/'.$imageName);
+            $object->delete();
+        }
+        
     }
 
 }
