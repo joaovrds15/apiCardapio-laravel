@@ -60,6 +60,8 @@ class ApiFilesController extends Controller
         $storageBucketName = config('googlecloud.storage_bucket');
         $bucket = $storage->bucket($storageBucketName);
         $filePath = $this->uploadServer($request);
+        dd($filePath);
+        /*
         $fileSource = fopen($filePath, 'r');
         $newFolderName = 'images';
         $googleCloudStoragePath = $newFolderName.'/'.basename($filePath);
@@ -70,6 +72,7 @@ class ApiFilesController extends Controller
         return response()->json([
             "google_storage_url" => 'https://storage.cloud.google.com/'.$storageBucketName.'/'.$googleCloudStoragePath,
         ]);
+        */
     }
     
     public static function deleteStorage($ImageURL){
