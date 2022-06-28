@@ -11,7 +11,7 @@ class ApiFilesController extends Controller
 {
    public function uploadServer(Request $request)
    {
-
+        dd('teste');
         $validator = Validator::make($request->all(), [
             'file' => 'image',
         ]);
