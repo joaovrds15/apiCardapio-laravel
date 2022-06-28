@@ -51,5 +51,5 @@ Route::group([
     ],function($router){
         Route::post('/upload',[ApiFilesController::class, 'uploadStorage'])->name('upload.api');
     });
-    dd('teste');
+    
 });
