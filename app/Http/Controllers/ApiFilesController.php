@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ApiFilesRequest;
 use Illuminate\Http\Request;
 use Google\Cloud\Storage\StorageClient;
 use Illuminate\Support\Facades\Validator;
@@ -9,20 +10,13 @@ use Illuminate\Support\Str;
 
 class ApiFilesController extends Controller
 {
-   public function uploadServer(Request $request)
+   public function uploadServer(ApiFilesRequest $request)
    {
-        $validator = Validator::make($request->all(), [
-            'file' => 'image',
-        ]);
-
-        if ($validator->fails()) {
-            die(response()->json(['message' => 'Invalid file format'], 400));
-        }
-
+        $validated = $request->validated();    
         if($request->file('file')){
             $file = $request->file('file');
             $filename = (string) Str::uuid(). $file->getClientOriginalName();
-            return $file-> move(public_path('images/'), $filename);
+            return $file->move(public_path('images/'), $filename);
             
         }
    }
@@ -51,7 +45,7 @@ class ApiFilesController extends Controller
 * )
 */
 
-    public function uploadStorage(Request $request)
+    public function uploadStorage(ApiFilesRequest $request)
     {
         $googleConfigFile = file_get_contents(config_path('googlecloud.json'));
         $storage = new StorageClient([
