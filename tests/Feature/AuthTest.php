@@ -9,7 +9,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-
+/**
+ * @coversNothing
+ */
 class AuthTest extends TestCase
 {
     use RefreshDatabase;
@@ -102,4 +104,4 @@ class AuthTest extends TestCase
 
         $response->assertStatus(Response::HTTP_OK);
     }
-}   
+}

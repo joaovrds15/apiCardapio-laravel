@@ -47,9 +47,8 @@ Route::group([
     });
     //Change headers to allow only uplaod from front-end server
     Route::group([
-        'prefix' => 'file'
-    ],function($router){
-        Route::post('/upload',[ApiFilesController::class, 'uploadStorage'])->name('upload.api');
+        'prefix' => 'file',
+    ], function ($router) {
+        Route::post('/upload', [ApiFilesController::class, 'uploadStorage'])->name('upload.api');
     });
-    
 });
