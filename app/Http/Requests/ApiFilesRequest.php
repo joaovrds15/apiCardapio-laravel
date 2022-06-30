@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,7 +26,7 @@ class ApiFilesRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => ['image','required'],
+            'file' => ['image', 'required'],
         ];
     }
 }
