@@ -85,7 +85,9 @@ class ItemTest extends TestCase
     public function test_user_auth_can_create_item()
     {
         $user = User::factory()->create();
-        $item = Item::factory()->create();
+        $item = Item::factory()->create([
+            'image' => 'http://imagemDeComida',
+        ]);
 
         $response = $this->actingAs($user, 'api')
             ->postJson('api/items/create', $item->toArray());
