@@ -3,53 +3,51 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ApiFilesRequest;
-use Illuminate\Http\Request;
 use Google\Cloud\Storage\StorageClient;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ApiFilesController extends Controller
 {
-   public function uploadServer(ApiFilesRequest $request)
-   {
-        $validated = $request->validated();    
-        if($request->file('file')){
+    public function uploadServer(ApiFilesRequest $request)
+    {
+        $validated = $request->validated();
+        if ($request->file('file')) {
             $file = $request->file('file');
-            $filename = (string) Str::uuid(). $file->getClientOriginalName();
-            return $file->move(public_path('images/'), $filename);
-            
-        }
-   }
-/**
-*   @OA\Post(
-*       path="/api/file/upload",
-*       summary="Endpoint for uploading an image",
-*       tags={"File"},
-*       @OA\RequestBody(
-*           required=true,
-*           @OA\MediaType(
-*           mediaType="multipart/form-data",
-*           @OA\Schema(
-*               @OA\Property(
-*                   description="Image of item in the menu",
-*                   property="file",
-*                   type="file",
-*               ),
-*               required={"file"}
-*               )
-*            )
-*           ),
-*       @OA\Response(response="200", description="Uploaded",),
-*       @OA\Response(response="400", description="Image invalid"),
-*       @OA\Response(response="405", description="The only method available is Post"),
-* )
-*/
+            $filename = (string) Str::uuid().$file->getClientOriginalName();
 
+            return $file->move(public_path('images/'), $filename);
+        }
+    }
+
+    /**
+     *   @OA\Post(
+     *       path="/api/file/upload",
+     *       summary="Endpoint for uploading an image",
+     *       tags={"File"},
+     *       @OA\RequestBody(
+     *           required=true,
+     *           @OA\MediaType(
+     *           mediaType="multipart/form-data",
+     *           @OA\Schema(
+     *               @OA\Property(
+     *                   description="Image of item in the menu",
+     *                   property="file",
+     *                   type="file",
+     *               ),
+     *               required={"file"}
+     *               )
+     *            )
+     *           ),
+     *       @OA\Response(response="200", description="Uploaded",),
+     *       @OA\Response(response="405", description="The only method available is Post"),
+     *       @OA\Response(response="422", description="Wrong key or file format"),
+     * )
+     */
     public function uploadStorage(ApiFilesRequest $request)
     {
         $googleConfigFile = file_get_contents(config_path('googlecloud.json'));
         $storage = new StorageClient([
-            'keyFile' => json_decode($googleConfigFile, true)
+            'keyFile' => json_decode($googleConfigFile, true),
         ]);
         $storageBucketName = config('googlecloud.storage_bucket');
         $bucket = $storage->bucket($storageBucketName);
@@ -58,20 +56,20 @@ class ApiFilesController extends Controller
         $newFolderName = 'images';
         $googleCloudStoragePath = $newFolderName.'/'.basename($filePath);
         $bucket->upload($fileSource, [
-            'name' => $googleCloudStoragePath
+            'name' => $googleCloudStoragePath,
         ]);
 
         return response()->json([
-            "google_storage_url" => 'https://storage.cloud.google.com/'.$storageBucketName.'/'.$googleCloudStoragePath,
+            'google_storage_url' => 'https://storage.cloud.google.com/'.$storageBucketName.'/'.$googleCloudStoragePath,
         ]);
-        
     }
-    
-    public static function deleteStorage($ImageURL){
-        if (!empty($ImageURL)){
+
+    public static function deleteStorage($ImageURL)
+    {
+        if (! empty($ImageURL)) {
             $googleConfigFile = file_get_contents(config_path('googlecloud.json'));
             $storage = new StorageClient([
-                'keyFile' => json_decode($googleConfigFile, true)
+                'keyFile' => json_decode($googleConfigFile, true),
             ]);
             $imageName = basename($ImageURL);
             $storageBucketName = config('googlecloud.storage_bucket');
@@ -80,7 +78,5 @@ class ApiFilesController extends Controller
             $object = $bucket->object($newFolderName.'/'.$imageName);
             $object->delete();
         }
-        
     }
-
 }

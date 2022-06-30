@@ -94,7 +94,7 @@ class ApiItemsController extends Controller
     {
         $idUser = Auth::user()->getKey();
 
-        $userItems = Item::where('idUser', '=', $idUser)->get(['id','name', 'price', 'description', 'image', 'created_at', 'updated_at']);
+        $userItems = Item::where('idUser', '=', $idUser)->get(['id', 'name', 'price', 'description', 'image', 'created_at', 'updated_at']);
 
         return response()->json($userItems);
     }
@@ -234,9 +234,9 @@ class ApiItemsController extends Controller
         if (! $item) {
             return response()->json(['message' => 'Invalid itemId'], 401);
         }
-        $imageName = Item::query()->select('image')->where('id','=',$id)->get();
+        $imageName = Item::query()->select('image')->where('id', '=', $id)->get();
         $imageName = $imageName[0]['image'];
-        $imageName == $request->get('image') ? : ApiFilesController::deleteStorage($imageName);
+        $imageName === $request->get('image') ?: ApiFilesController::deleteStorage($imageName);
 
         $item = Item::where('idUser', $idUser)
                     ->where('id', $id)
@@ -277,7 +277,7 @@ class ApiItemsController extends Controller
                 'message' => 'Invalid itemId',
             ], 401);
         }
-        $imageName = Item::query()->select('image')->where('id','=',$id)->get();
+        $imageName = Item::query()->select('image')->where('id', '=', $id)->get();
         ApiFilesController::deleteStorage($imageName[0]['image']);
         Item::where('id', '=', $id)->where('idUser', '=', $idUser)->delete();
 
