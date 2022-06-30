@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,11 +26,10 @@ class ApiItemsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','string','max:255'],
-            'price' => ['required','numeric','min:0.01'],
-            'description' => ['required','string','max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'price' => ['required', 'numeric', 'min:0.01'],
+            'description' => ['required', 'string', 'max:255'],
             'image' => ['url'],
         ];
     }
-
 }

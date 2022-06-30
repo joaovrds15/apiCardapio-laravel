@@ -10,7 +10,6 @@ class ApiFilesController extends Controller
 {
     public function uploadServer(ApiFilesRequest $request)
     {
-        
         if ($request->file('file')) {
             $file = $request->file('file');
             $filename = (string) Str::uuid().$file->getClientOriginalName();

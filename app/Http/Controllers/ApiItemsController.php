@@ -9,7 +9,6 @@ use App\Http\Requests\ApiItemsRequest;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class ApiItemsController extends Controller
 {
@@ -214,7 +213,6 @@ class ApiItemsController extends Controller
      */
     public function edit(ApiItemsEditRequest $request, $id)
     {
-
         $idUser = Auth::user()->getKey();
         $item = Item::find($id);
         if (! $item) {
