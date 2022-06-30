@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ApiItemsEditRequest;
+use App\Http\Requests\ApiItemsRequest;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,7 +49,7 @@ class ApiItemsController extends Controller
      *    ),
      *
      *   @OA\Response(response="201", description="New item created"),
-     *   @OA\Response(response="400", description="Invalid data"),
+     *   @OA\Response(response="422", description="Invalid data"),
      *   @OA\Response(response="401", description="Invalid Token"),
      *
      *
@@ -55,17 +57,8 @@ class ApiItemsController extends Controller
      *   @param Request $request
      *   @return JsonResponse
      */
-    public function create(Request $request)
+    public function create(ApiItemsRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0.01',
-            'description' => 'required|string|max:255',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Invalid item data'], 400);
-        }
-
         $data = [
             'idUser' => Auth::user()->getKey(),
             'name' => $request['name'],
@@ -211,24 +204,17 @@ class ApiItemsController extends Controller
      *    ),
      *   @OA\Response(response="401", description="Invalid Token"),
      *   @OA\Response(response="200", description="Items found"),
-     *    @OA\Response(response="400", description="Invalid id"),
+     *   @OA\Response(response="400", description="Invalid id"),
+     *   @OA\Response(response="422", description="Invalid edit data"),
      *  ),
      *  @param string $id
-     *  @param Request $request
+     *  @param ApiItemsEditRequest $request
      *  @param mixed $itemId
      *  @return JsonResponse
      */
-    public function edit(Request $request, $id)
+    public function edit(ApiItemsEditRequest $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0.01',
-            'description' => 'required|string|max:255',
-            'image' => 'url|max:255',
-        ]);
-        if ($validator->fails()) {
-            return response()->json(['message' => 'Invalid item data'], 400);
-        }
+
         $idUser = Auth::user()->getKey();
         $item = Item::find($id);
         if (! $item) {
